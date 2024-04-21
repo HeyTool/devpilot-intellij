@@ -174,15 +174,16 @@ public final class OllamaServiceProvider implements LlmProvider {
         var result = Objects.requireNonNull(response.body()).string();
 
         if (response.isSuccessful()) {
-            var message = objectMapper.readValue(result, DevPilotSuccessResponse.class)
-                .getChoices()
-                .get(0)
-                .getMessage();
+            // var message = objectMapper.readValue(result, DevPilotSuccessResponse.class)
+            //     .getChoices()
+            //     .get(0)
+            //     .getMessage();
+            var content = "TaskTemplateServiceImpl implementation";
             var devPilotMessage = new DevPilotMessage();
             devPilotMessage.setRole("assistant");
-            devPilotMessage.setContent(message.getContent());
+            devPilotMessage.setContent(content);
             chatCompletionRequest.getMessages().add(devPilotMessage);
-            return DevPilotChatCompletionResponse.success(message.getContent());
+            return DevPilotChatCompletionResponse.success(content);
 
         } else {
             return DevPilotChatCompletionResponse.failed(objectMapper.readValue(result, DevPilotFailedResponse.class)

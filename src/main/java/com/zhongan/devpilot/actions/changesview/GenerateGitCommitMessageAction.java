@@ -61,8 +61,11 @@ public class GenerateGitCommitMessageAction extends AnAction {
                 ((EditorEx) editor).setCaretVisible(false);
 
                 DevPilotMessage userMessage = MessageUtil.createUserMessage(gitDiff, "-1");
+                String oldContent = userMessage.getContent();
+                userMessage.setContent(PromptConst.GENERATE_COMMIT + "\n\n" + oldContent);
+
                 DevPilotChatCompletionRequest devPilotChatCompletionRequest = new DevPilotChatCompletionRequest();
-                devPilotChatCompletionRequest.getMessages().add(MessageUtil.createSystemMessage(PromptConst.GENERATE_COMMIT));
+                // devPilotChatCompletionRequest.getMessages().add(MessageUtil.createSystemMessage(PromptConst.GENERATE_COMMIT));
                 devPilotChatCompletionRequest.getMessages().add(userMessage);
                 devPilotChatCompletionRequest.setStream(Boolean.FALSE);
 
